@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gr11 Life Skills - Moving Out Checklist & Budget Prep</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --accent: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        h1 { margin: 0 0 8px 0; color: #0f172a; font-size: 1.8rem; }
+        p { margin: 0; color: #64748b; }
+
+        .instructions {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            margin-top: 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        .section-card h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            color: #0f172a;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-group { grid-template-columns: 1fr; }
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+        }
+
+        .check-item {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .check-item:hover {
+            border-color: #94a3b8;
+        }
+
+        .check-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .check-header input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .check-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 12px;
+            padding-left: 32px;
+        }
+
+        .check-prompt {
+            padding-left: 32px;
+        }
+
+        .tag-select {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .tag-oneoff { background: #e0f2fe; color: #0369a1; }
+        .tag-ongoing { background: #dcfce7; color: #15803d; }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-bottom: 24px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .btn-submit { background: var(--primary); color: white; }
+        .btn-submit:hover { background: var(--primary-hover); }
+        .btn-export { background: var(--success); color: white; }
+        .btn-export:hover { background: #15803d; }
+
+        .results-panel {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th { background: #f1f5f9; font-size: 0.85rem; color: #475569; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Worksheet 1: Moving Out Checklist & Budget Prep</h1>
+        <p>Grade 11 Life Skills — Preparing for University Life</p>
+        <div class="instructions">
+            <strong>Goal:</strong> Select and reflect on the moving-out checklist items below to prepare your list of expense items for next week's 1-year university budget spreadsheet.
+        </div>
+    </header>
+
+    <div class="section-card">
+        <h2>Step 1: Your University Destination</h2>
+        <div class="form-group">
+            <div>
+                <label for="country">Target Country for University:</label>
+                <input type="text" id="country" placeholder="e.g. Germany, UK, Netherlands, USA">
+            </div>
+            <div>
+                <label for="city">Target City / Town:</label>
+                <input type="text" id="city" placeholder="e.g. Munich, Berlin, London, Amsterdam">
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2>Step 2: Moving Out Checklist & Expense Identification</h2>
+        <div id="checklist-container">
+            <!-- Dynamically Populated -->
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-submit" onclick="generateBudgetList()">Generate My Budget Item List</button>
+    </div>
+
+    <div class="results-panel" id="results-panel">
+        <h2>Your Budget Starter List for Next Week's Spreadsheet</h2>
+        <p style="color:#64748b; font-size: 0.9rem;">Here are the budget line items you have generated based on your moving-out planning. You can export this to CSV to import directly into Google Sheets or Excel!</p>
+        
+        <table id="summary-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Budget Item Name</th>
+                    <th>Cost Type</th>
+                    <th>Specific Details / Provider Notes</th>
+                </tr>
+            </thead>
+            <tbody id="summary-body">
+            </tbody>
+        </table>
+
+        <div style="margin-top:20px; display:flex; gap:12px; justify-content:flex-end;">
+            <button class="btn-export" onclick="downloadCSV()">Download as CSV (.csv)</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const checklistData = [
+        {
+            id: "budget",
+            title: "Budget & Living Allowance",
+            desc: "Work out tuition fees, food, transport, bills, and accommodation you can afford over a week, month, or year.",
+            prompt: "What recurring expenses will you need to include each month?",
+            defaultItem: "Tuition Fees & Living Allowance",
+            type: "Ongoing",
+            companies: "e.g. University Finance Dept, BAföG, Student Loans"
+        },
+        {
+            id: "area",
+            title: "Research the Area & Services",
+            desc: "Ensure the area has public transport, supermarkets, pharmacies, or laundromats.",
+            prompt: "What local services/facilities will require a monthly pass or budget?",
+            defaultItem: "Public Transport Pass (e.g. Deutschlandticket)",
+            type: "Ongoing",
+            companies: "e.g. MVV / DB, Local Transit"
+        },
+        {
+            id: "furniture",
+            title: "Furniture & Homewares",
+            desc: "Find out if accommodation is furnished. Unfurnished flats require second-hand or new furniture.",
+            prompt: "If unfurnished, what essential furniture items will you need to buy first?",
+            defaultItem: "Essential Furniture & Kitchenware",
+            type: "One-off",
+            companies: "e.g. IKEA, eBay Kleinanzeigen, Student Buy/Sell groups"
+        },
+        {
+            id: "removalists",
+            title: "Moving Costs & Removalists",
+            desc: "Plan how to move your belongings (hire a van, use luggages on train, or book help).",
+            prompt: "How will you transport your luggage/furniture to university?",
+            defaultItem: "Moving Van / Extra Baggage Fees",
+            type: "One-off",
+            companies: "e.g. Sixt, Miles, Luggage delivery services"
+        },
+        {
+            id: "utilities",
+            title: "Set up Utilities (Electricity, Heating, Water)",
+            desc: "Sign up for electricity and heating connections if not included in rent (Warmmiete vs Kaltmiete).",
+            prompt: "Which utilities need to be set up in your name?",
+            defaultItem: "Electricity & Heating (Strom & Heizung)",
+            type: "Ongoing",
+            companies: "e.g. Stadtwerke München (SWM), Vattenfall, E.ON"
+        },
+        {
+            id: "internet",
+            title: "Internet & Mobile Phone",
+            desc: "Sign up to an internet provider or mobile data contract.",
+            prompt: "What mobile/internet package best suits your study needs?",
+            defaultItem: "Internet & Mobile Phone Plan",
+            type: "Ongoing",
+            companies: "e.g. Telekom, Vodafone, O2, Congstar"
+        },
+        {
+            id: "insurance",
+            title: "Insurance & Legal Mandatory Fees",
+            desc: "Get quotes for household contents insurance (Hausratversicherung) and local TV/radio license fees (GEZ in Germany).",
+            prompt: "What personal items or legal fees do you need insured/covered?",
+            defaultItem: "Household Insurance & Broadcasting Fee (GEZ)",
+            type: "Ongoing",
+            companies: "e.g. Feather, Getsafe, Rundfunkbeitrag"
+        },
+        {
+            id: "registration",
+            title: "Registration & Admin (Bürgeramt / Visa)",
+            desc: "Update address at bank, Bürgeramt (city registration), insurance, and official bodies.",
+            prompt: "Which local organizations do you need to register with upon arrival?",
+            defaultItem: "City Registration Fees & Official Admin",
+            type: "One-off",
+            companies: "e.g. Bürgeramt / KVR, Foreigners Authority (Ausländerbehörde)"
+        },
+        {
+            id: "memberships",
+            title: "Gym & Subscriptions",
+            desc: "Change, transfer, or cancel memberships you won't use (clubs, gym, streaming).",
+            prompt: "Which subscriptions or memberships will you pay for while studying?",
+            defaultItem: "Gym & Sports Club Membership",
+            type: "Ongoing",
+            companies: "e.g. FitStar, University Sports Center (ZHS), Spotify/Netflix"
+        }
+    ];
+
+    function renderChecklist() {
+        const container = document.getElementById('checklist-container');
+        container.innerHTML = '';
+
+        checklistData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'check-item';
+            card.innerHTML = `
+                <div class="check-header">
+                    <input type="checkbox" id="chk-${item.id}" checked>
+                    <label for="chk-${item.id}" style="cursor:pointer; margin:0;">${item.title}</label>
+                    <span class="tag-select ${item.type === 'One-off' ? 'tag-oneoff' : 'tag-ongoing'}">${item.type}</span>
+                </div>
+                <div class="check-desc">${item.desc}</div>
+                <div class="check-prompt">
+                    <label style="font-size:0.85rem; color:#475569;">${item.prompt}</label>
+                    <input type="text" id="note-${item.id}" placeholder="${item.companies}" style="margin-top:4px;">
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    let budgetSummary = [];
+
+    function generateBudgetList() {
+        const country = document.getElementById('country').value || 'Selected Country';
+        const city = document.getElementById('city').value || 'Target City';
+        const tbody = document.getElementById('summary-body');
+        tbody.innerHTML = '';
+        budgetSummary = [];
+
+        checklistData.forEach(item => {
+            const isChecked = document.getElementById(`chk-${item.id}`).checked;
+            if (isChecked) {
+                const userNote = document.getElementById(`note-${item.id}`).value || 'Standard Budget Line Item';
+                
+                const rowData = {
+                    category: item.title,
+                    itemName: item.defaultItem,
+                    type: item.type,
+                    note: userNote
+                };
+                budgetSummary.push(rowData);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${rowData.category}</strong></td>
+                    <td>${rowData.itemName}</td>
+                    <td><span class="tag-select ${rowData.type === 'One-off' ? 'tag-oneoff' : 'tag-ongoing'}">${rowData.type}</span></td>
+                    <td>${rowData.note}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        });
+
+        const panel = document.getElementById('results-panel');
+        panel.style.display = 'block';
+        panel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function downloadCSV() {
+        if (budgetSummary.length === 0) return;
+
+        let csvContent = "data:text/csv;charset=utf-8,Category,Budget Item Name,Cost Type,Details and Providers\n";
+        
+        budgetSummary.forEach(row => {
+            const cleanNote = `"${row.note.replace(/"/g, '""')}"`;
+            const cleanCat = `"${row.category.replace(/"/g, '""')}"`;
+            const cleanName = `"${row.itemName.replace(/"/g, '""')}"`;
+            csvContent += `${cleanCat},${cleanName},${row.type},${cleanNote}\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "university_budget_starter_list.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    window.onload = renderChecklist;
+</script>
+</body>
+</html>
