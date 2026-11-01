@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gr11 Life Skills - Quiz & Shared Expenses</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --error: #dc2626;
+            --accent: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        h1 { margin: 0 0 8px 0; color: #0f172a; font-size: 1.8rem; }
+        p { margin: 0; color: #64748b; }
+
+        .instructions {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            margin-top: 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        .section-card h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            color: #0f172a;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 12px;
+        }
+
+        .q-block {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .q-block:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .q-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: #334155;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+        }
+
+        .opt-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .opt-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .opt-btn.selected {
+            background: #dbeafe;
+            border-color: var(--primary);
+            color: #1e40af;
+            font-weight: 600;
+        }
+
+        /* Discussion Section Styles */
+        .expense-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 2fr;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .expense-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .expense-name {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-bottom: 24px;
+        }
+
+        button.main-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .btn-submit { background: var(--primary); color: white; }
+        .btn-submit:hover { background: var(--primary-hover); }
+        .btn-reset { background: #e2e8f0; color: #475569; }
+        .btn-reset:hover { background: #cbd5e1; }
+
+        .results-panel {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .mark-item {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .mark-correct { background: #dcfce7; color: #14532d; }
+        .mark-incorrect { background: #fee2e2; color: #7f1d1d; }
+
+        .explanation {
+            font-size: 0.85rem;
+            margin-top: 4px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Task 2: Living Arrangements - Quiz</h1>
+        <p>Grade 11 Life Skills — Financial Literacy & Flat Sharing</p>
+        <div class="instructions">
+            <strong>Part 1:</strong> Complete the 8-question quiz on lease agreements, legal obligations, insurance, and bills.<br>
+            <strong>Part 2:</strong> Shared Expenses Discussion — Select the fairest way flatmates can split various shared costs and provide your reasoning.
+        </div>
+    </header>
+
+    <!-- PART 1: QUIZ -->
+    <div class="section-card">
+        <h2>Part 1: Living Arrangements Quiz (8 Questions)</h2>
+        <div id="quiz-container">
+            <!-- Questions rendered by JS -->
+        </div>
+    </div>
+
+    <!-- PART 2: EXPENSES DISCUSSION -->
+    <div class="section-card">
+        <h2>Part 2: Shared Expenses Discussion</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 16px;">How can flatmates share these costs fairly? Select a division strategy and explain your reasoning for each:</p>
+        
+        <div id="expense-container">
+            <!-- Expenses populated by JS -->
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="main-btn btn-reset" onclick="resetForm()">Reset</button>
+        <button class="main-btn btn-submit" onclick="submitWorksheet()">Submit & Check Answers</button>
+    </div>
+
+    <!-- RESULTS PANEL -->
+    <div class="results-panel" id="results-panel">
+        <h2 style="margin-top:0;">Quiz Results & Markscheme</h2>
+        <div id="quiz-score" style="font-size: 1.3rem; font-weight: bold; margin-bottom: 16px;"></div>
+        <div id="quiz-feedback"></div>
+
+        <h2 style="margin-top:24px;">Your Shared Expenses Strategy Summary</h2>
+        <div id="expenses-summary"></div>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            id: 1,
+            q: "Who should sign the rental agreement (Mietvertrag)?",
+            options: {
+                a: "The oldest housemate",
+                b: "The most organised housemate",
+                c: "The person who found the flat",
+                d: "Every housemate"
+            },
+            correct: "d",
+            explanation: "Every housemate should ideally sign as main tenants or co-tenants so everyone has equal legal rights and shared responsibility."
+        },
+        {
+            id: 2,
+            q: "Whose names should be on utility bills?",
+            options: {
+                a: "Every housemate",
+                b: "Any couples in the flat",
+                c: "Only the one who set it up",
+                d: "No one, landlord pays"
+            },
+            correct: "a",
+            explanation: "Having everyone's name on bills prevents one person from carrying full financial liability if someone defaults on payment."
+        },
+        {
+            id: 3,
+            q: "Who should take out household insurance?",
+            options: {
+                a: "Anyone who wants their belongings covered",
+                b: "Only the housemate with the most expensive items",
+                c: "Parents of a tenant",
+                d: "Landlord"
+            },
+            correct: "a",
+            explanation: "Contents insurance (Hausratversicherung) covers personal possessions. Anyone wanting coverage for their items must ensure they are insured."
+        },
+        {
+            id: 4,
+            q: "Who should pay the deposit (Kaution)?",
+            options: {
+                a: "The organiser",
+                b: "Every housemate contributes",
+                c: "The one who earns the most",
+                d: "No one – negotiate with landlord"
+            },
+            correct: "b",
+            explanation: "Every tenant contributes equally (or proportional to room size) to the initial deposit, which is refunded at move-out."
+        },
+        {
+            id: 5,
+            q: "What happens if one housemate moves out early or stops paying rent on a joint contract (Gesamtschuldnerische Haftung)?",
+            options: {
+                a: "Only the person who left is legally responsible",
+                b: "The landlord forgives that portion of the rent",
+                c: "All remaining housemates who signed are legally liable for the missing rent",
+                d: "The flatmate with the largest bedroom pays extra"
+            },
+            correct: "c",
+            explanation: "Under joint liability (Gesamtschuldnerische Haftung), the landlord can legally demand the full rent amount from any or all tenants who signed."
+        },
+        {
+            id: 6,
+            q: "Who is legally required to pay the broadcasting fee (Rundfunkbeitrag / GEZ) in a shared flat in Germany?",
+            options: {
+                a: "Every person living in the flat pays full price individually",
+                b: "One payment is owed per flat/household, usually split equally among housemates",
+                c: "Students are automatically exempt",
+                d: "The landlord covers it in the utility bill"
+            },
+            correct: "b",
+            explanation: "The Rundfunkbeitrag is paid once per household/apartment regardless of how many people live there, making an equal split standard."
+        },
+        {
+            id: 7,
+            q: "How should notice periods (Kündigungsfrist) for moving out be handled in a joint lease?",
+            options: {
+                a: "Any individual can give 1 week's notice whenever they want",
+                b: "All tenants who signed must give notice together, unless a replacement tenant (Nachmieter) clause is agreed",
+                c: "You can move out instantly if you find a friend to take your room",
+                d: "Only the landlord decides when you can leave"
+            },
+            correct: "b",
+            explanation: "On a joint contract, all tenants must terminate the lease together unless the contract includes a sub-letting or tenant replacement clause."
+        },
+        {
+            id: 8,
+            q: "What should housemates complete together on moving-in day to protect their deposit (Kaution)?",
+            options: {
+                a: "A social contract on chore rules",
+                b: "A formal handover protocol (Übergabeprotokoll) documenting existing damage and meter readings",
+                c: "A shopping list for common room furniture",
+                d: "A joint bank account application"
+            },
+            correct: "b",
+            explanation: "An Übergabeprotokoll signed with the landlord documents pre-existing damage and meter values, protecting your deposit when moving out."
+        }
+    ];
+
+    const defaultExpenses = [
+        "Rent",
+        "Utility bills",
+        "Household supplies (cleaning products, toilet paper)",
+        "Streaming services",
+        "Furniture for common rooms",
+        "Broadcasting Fee (GEZ / TV License)",
+        "Custom Item 1",
+        "Custom Item 2"
+    ];
+
+    const answers = {};
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+
+        quizData.forEach(item => {
+            answers[item.id] = null;
+            const qDiv = document.createElement('div');
+            qDiv.className = 'q-block';
+            qDiv.id = `q${item.id}-block`;
+
+            let optionsHtml = '';
+            for (let key in item.options) {
+                optionsHtml += `<button class="opt-btn" onclick="selectOption(${item.id}, '${key}')">${key}) ${item.options[key]}</button>`;
+            }
+
+            qDiv.innerHTML = `
+                <div class="q-title">${item.id}. ${item.q}</div>
+                <div class="options-grid">${optionsHtml}</div>
+            `;
+            container.appendChild(qDiv);
+        });
+    }
+
+    function renderExpenses() {
+        const container = document.getElementById('expense-container');
+        container.innerHTML = '';
+
+        defaultExpenses.forEach((item, index) => {
+            const isCustom = item.startsWith("Custom Item");
+            const row = document.createElement('div');
+            row.className = 'expense-row';
+
+            const nameHtml = isCustom 
+                ? `<input type="text" placeholder="Enter expense (e.g. Shared groceries)" id="exp-name-${index}">`
+                : `<span class="expense-name">${item}</span>`;
+
+            row.innerHTML = `
+                <div>${nameHtml}</div>
+                <div>
+                    <select id="exp-strategy-${index}">
+                        <option value="Equal Split">Equal Split (1/N)</option>
+                        <option value="Room Size / Usage">Proportional (Room/Usage)</option>
+                        <option value="Opt-In / Usage">Opt-In / Only Users Pay</option>
+                        <option value="Income Adjusted">Income / Ability to Pay</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" id="exp-reason-${index}" placeholder="Why is this fair? (Brief explanation)">
+                </div>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function selectOption(qId, val) {
+        answers[qId] = val;
+        const block = document.getElementById(`q${qId}-block`);
+        const btns = block.querySelectorAll('.opt-btn');
+        btns.forEach(btn => {
+            btn.classList.remove('selected');
+            if (btn.textContent.trim().startsWith(val + ')')) {
+                btn.classList.add('selected');
+            }
+        });
+    }
+
+    function submitWorksheet() {
+        let score = 0;
+        const feedbackDiv = document.getElementById('quiz-feedback');
+        feedbackDiv.innerHTML = '';
+
+        quizData.forEach(item => {
+            const userAns = answers[item.id];
+            const isCorrect = userAns === item.correct;
+            if (isCorrect) score++;
+
+            const markDiv = document.createElement('div');
+            markDiv.className = `mark-item ${isCorrect ? 'mark-correct' : 'mark-incorrect'}`;
+            markDiv.innerHTML = `
+                <strong>Q${item.id}: ${item.q}</strong><br>
+                <span>Your Answer: ${userAns ? userAns.toUpperCase() : 'None Selected'} | Correct: ${item.correct.toUpperCase()}</span>
+                <div class="explanation">${item.explanation}</div>
+            `;
+            feedbackDiv.appendChild(markDiv);
+        });
+
+        const quizScoreDiv = document.getElementById('quiz-score');
+        const percentage = Math.round((score / quizData.length) * 100);
+        quizScoreDiv.textContent = `Score: ${score} / ${quizData.length} (${percentage}%)`;
+        quizScoreDiv.style.color = percentage >= 75 ? 'var(--success)' : 'var(--error)';
+
+        // Summary of Discussion
+        const summaryDiv = document.getElementById('expenses-summary');
+        summaryDiv.innerHTML = '';
+
+        defaultExpenses.forEach((item, index) => {
+            let name = item;
+            if (item.startsWith("Custom Item")) {
+                const inputVal = document.getElementById(`exp-name-${index}`).value;
+                name = inputVal || item;
+            }
+            const strat = document.getElementById(`exp-strategy-${index}`).value;
+            const reason = document.getElementById(`exp-reason-${index}`).value || "No justification provided.";
+
+            const row = document.createElement('div');
+            row.style.padding = '8px 0';
+            row.style.borderBottom = '1px solid #e2e8f0';
+            row.innerHTML = `<strong>${name}</strong> — <span style="color:var(--primary)">${strat}</span><br><em>Reason: ${reason}</em>`;
+            summaryDiv.appendChild(row);
+        });
+
+        const panel = document.getElementById('results-panel');
+        panel.style.display = 'block';
+        panel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        renderQuiz();
+        renderExpenses();
+        document.getElementById('results-panel').style.display = 'none';
+    }
+
+    window.onload = function() {
+        renderQuiz();
+        renderExpenses();
+    };
+</script>
+</body>
+</html>
